@@ -2,8 +2,10 @@ package com.hieupham.cleanarchitecture.data.source.remote.api.service;
 
 import com.hieupham.cleanarchitecture.data.model.Task;
 import com.hieupham.cleanarchitecture.data.source.remote.api.request.CreateTaskRequest;
+import java.util.List;
 import retrofit2.http.Body;
 import retrofit2.http.FormUrlEncoded;
+import retrofit2.http.GET;
 import retrofit2.http.POST;
 import retrofit2.http.PUT;
 import retrofit2.http.Path;
@@ -14,6 +16,9 @@ import rx.Observable;
  */
 
 public interface AuthApi {
+
+    @GET("api/task/owner")
+    Observable<List<Task>> getTasks(String uid);
 
     @POST("api/task/create")
     Observable<Task> createTask(@Body CreateTaskRequest request);
