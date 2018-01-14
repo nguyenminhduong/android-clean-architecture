@@ -3,6 +3,7 @@ package com.hieupham.cleanarchitecture.data.source;
 import com.hieupham.cleanarchitecture.data.model.Task;
 import com.hieupham.cleanarchitecture.data.source.local.TaskLocalDataSource;
 import com.hieupham.cleanarchitecture.data.source.remote.TaskRemoteDataSource;
+import java.util.List;
 import rx.Observable;
 import rx.functions.Func1;
 
@@ -21,7 +22,17 @@ public class TaskRepository implements Repository {
         this.localDataSource = localDataSource;
     }
 
-    public Observable<Task> getById(String uid){
+    public Observable<List<Task>> getTasksByOwner(String uid) {
+        return remoteDataSource.getTasksByOwner(uid)
+                .flatMap(new Func1<List<Task>, Observable<List<Task>>>() {
+                    @Override
+                    public Observable<List<Task>> call(List<Task> tasks) {
+                        return localDataSource.saveTasks(tasks);
+                    }
+                });
+    }
+
+    public Observable<Task> getById(String uid) {
         return localDataSource.getById(uid);
     }
 

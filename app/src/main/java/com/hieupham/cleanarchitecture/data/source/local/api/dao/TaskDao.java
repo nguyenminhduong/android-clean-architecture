@@ -28,4 +28,7 @@ public abstract class TaskDao {
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     public abstract void save(Task task);
+
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
+    public abstract void save(List<Task> tasks);
 }
